@@ -25,31 +25,31 @@
 
         private static void Name()
         {
-            Console.Write("temperture");
+            Console.Write("temperature");
         }
 
         private static void Config()
         {
-            Console.WriteLine("graph_title Temperture");
+            Console.WriteLine("graph_title Temperature");
             Console.WriteLine("graph_category sensor");
             Console.WriteLine("graph_args --base 1000 -l 0");
-            Console.WriteLine("graph_info Temperture");
-            Console.WriteLine("graph_vlabel Temperture");
-            Console.WriteLine("temperture.label Temperture");
-            Console.WriteLine("temperture.draw LINE");
+            Console.WriteLine("graph_info Temperature");
+            Console.WriteLine("graph_vlabel Temperature");
+            Console.WriteLine("temperature.label Temperature");
+            Console.WriteLine("temperature.draw LINE");
             Console.WriteLine(".");
         }
 
         private static void Values()
         {
-            if (ReadTemperture(out var temperture))
+            if (ReadTemperature(out var temperature))
             {
-                Console.WriteLine("temperture.value {0:F2}", temperture);
+                Console.WriteLine("temperature.value {0:F2}", temperature);
                 Console.WriteLine(".");
             }
         }
 
-        private static bool ReadTemperture(out double temperature)
+        private static bool ReadTemperature(out double temperature)
         {
             temperature = 0;
 
@@ -104,7 +104,7 @@
                 return false;
             }
 
-            // Temperture
+            // Temperature
             bulk.Write(new byte[] { 0x00, 0x01, 0x80, 0x33, 0x01, 0x00, 0x00, 0x00, 0x00 }, 100);
             data = bulk.Read(100);
             if (data.Status != HidDeviceData.ReadStatus.Success)
