@@ -31,7 +31,7 @@
         private static void Config()
         {
             Console.WriteLine("graph_title Temperature");
-            Console.WriteLine("graph_category sensor");
+            Console.WriteLine("graph_category sensors");
             Console.WriteLine("graph_args --base 1000 -l 0");
             Console.WriteLine("graph_info Temperature");
             Console.WriteLine("graph_vlabel Temperature");
