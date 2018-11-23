@@ -57,6 +57,10 @@
                 .Where(x => x.Attributes.ProductHexId == "0x7401" & x.Attributes.VendorHexId == "0x0C45")
                 .ToList();
             var bulk = interfaces.Find(x => x.DevicePath.Contains("mi_01"));
+            if (bulk == null)
+            {
+                return false;
+            }
 
             // Initialize1
             bulk.Write(new byte[] { 0x00, 0x01, 0x82, 0x77, 0x01, 0x00, 0x00, 0x00, 0x00 }, 100);
