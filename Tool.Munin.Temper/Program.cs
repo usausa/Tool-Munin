@@ -56,33 +56,11 @@
             var interfaces = HidDevices.Enumerate()
                 .Where(x => x.Attributes.ProductHexId == "0x7401" & x.Attributes.VendorHexId == "0x0C45")
                 .ToList();
-            var control = interfaces.Find(x => x.DevicePath.Contains("mi_00"));
             var bulk = interfaces.Find(x => x.DevicePath.Contains("mi_01"));
-
-            if ((control == null) || (bulk == null))
-            {
-                return false;
-            }
-
-            if (!control.IsConnected)
-            {
-                return false;
-            }
-
-            control.OpenDevice();
-            bulk.OpenDevice();
-
-            // Initialize
-            control.Write(new byte[] { 0x00, 0x01, 0x01 }, 100);
-            var data = control.Read(100);
-            if (data.Status != HidDeviceData.ReadStatus.Success)
-            {
-                return false;
-            }
 
             // Initialize1
             bulk.Write(new byte[] { 0x00, 0x01, 0x82, 0x77, 0x01, 0x00, 0x00, 0x00, 0x00 }, 100);
-            data = bulk.Read(100);
+            var data = bulk.Read(100);
             if (data.Status != HidDeviceData.ReadStatus.Success)
             {
                 return false;
@@ -116,5 +94,73 @@
 
             return true;
         }
+
+        //private static bool ReadTemperature(out double temperature)
+        //{
+        //    temperature = 0;
+
+        //    var interfaces = HidDevices.Enumerate()
+        //        .Where(x => x.Attributes.ProductHexId == "0x7401" & x.Attributes.VendorHexId == "0x0C45")
+        //        .ToList();
+        //    var control = interfaces.Find(x => x.DevicePath.Contains("mi_00"));
+        //    var bulk = interfaces.Find(x => x.DevicePath.Contains("mi_01"));
+
+        //    if ((control == null) || (bulk == null))
+        //    {
+        //        return false;
+        //    }
+
+        //    if (!control.IsConnected)
+        //    {
+        //        return false;
+        //    }
+
+        //    control.OpenDevice();
+        //    bulk.OpenDevice();
+
+        //    // Initialize
+        //    control.Write(new byte[] { 0x00, 0x01, 0x01 }, 100);
+        //    var data = control.Read(100);
+        //    if (data.Status != HidDeviceData.ReadStatus.Success)
+        //    {
+        //        return false;
+        //    }
+
+        //    // Initialize1
+        //    bulk.Write(new byte[] { 0x00, 0x01, 0x82, 0x77, 0x01, 0x00, 0x00, 0x00, 0x00 }, 100);
+        //    data = bulk.Read(100);
+        //    if (data.Status != HidDeviceData.ReadStatus.Success)
+        //    {
+        //        return false;
+        //    }
+
+        //    // Initialize2
+        //    bulk.Write(new byte[] { 0x00, 0x01, 0x86, 0xff, 0x01, 0x00, 0x00, 0x00, 0x00 }, 100);
+        //    data = bulk.Read(100);
+        //    if (data.Status != HidDeviceData.ReadStatus.Success)
+        //    {
+        //        return false;
+        //    }
+
+        //    // Clear garbage
+        //    bulk.Write(new byte[] { 0x00, 0x01, 0x80, 0x33, 0x01, 0x00, 0x00, 0x00, 0x00 }, 100);
+        //    data = bulk.Read(100);
+        //    if (data.Status != HidDeviceData.ReadStatus.Success)
+        //    {
+        //        return false;
+        //    }
+
+        //    // Temperature
+        //    bulk.Write(new byte[] { 0x00, 0x01, 0x80, 0x33, 0x01, 0x00, 0x00, 0x00, 0x00 }, 100);
+        //    data = bulk.Read(100);
+        //    if (data.Status != HidDeviceData.ReadStatus.Success)
+        //    {
+        //        return false;
+        //    }
+
+        //    temperature = (((data.Data[4] & 0xFF) + (data.Data[3] << 8)) * (125.0 / 32000.0)) - 1.70;
+
+        //    return true;
+        //}
     }
 }
